@@ -1,5 +1,8 @@
 import speech_recognition as sr
 import pyttsx3
+import pywhatkit
+import datetime
+import wikipedia
 
 listener = sr.Recognizer()
 engine = pyttsx3.init()
@@ -24,7 +27,7 @@ def take_command():
             if 'alexa' in command:
                 print('alexa in command')
                 command = command.replace('alexa', '')
-                #talk('Hello')
+                # talk('Hello')
             print(command)
     except:
         pass
@@ -35,5 +38,19 @@ def take_command():
 def run_alexa():
     command = take_command()
     if 'play' in command:
-        talk('playing')
-        print('playing')
+        song = command.replace('play', '')
+        talk('playing' + song)
+        pywhatkit.playonyt(song)
+
+    elif 'time' in command:
+        time = datetime.datetime.now().strftime('%H:%M')
+        print(time)
+        talk('It is ' + time)
+
+    elif 'wikipedia' in command:
+        searchWords = command.replace('wikipedia', '')
+        info = wikipedia.summary(searchWords)
+        print(info)
+        talk(info)
+
+run_alexa()
